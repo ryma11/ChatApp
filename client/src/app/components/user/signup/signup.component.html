@@ -1,0 +1,79 @@
+<!-- <div fxLayoutAlign="center center" fxFlexFill>
+    <p-card fxFlex="25">
+        <form class="form " fxLayoutAlign="center center" fxLayout="column" #signUpForm="ngForm">
+            <div class="p-field  ">
+                <span class="p-float-label ">
+                    <p-autoComplete inputId="UserName" name="userName"  field="userName" #userName="ngModel" [(ngModel)]="userService.SelectedUser.userName" [required]="true"  [ngClass]="signUpForm.submitted && ! userName.valid ? 'ng-invalid': ''" ></p-autoComplete>
+                    <label for="UserName">UserName</label>
+                   
+                </span>
+                <div *ngIf="signUpForm.submitted && ! userName.valid" class="label">
+                    <label class="validation-message"> this field id required</label>
+                </div>
+            </div>
+            <div class="p-field  ">
+                <span class="p-float-label">
+                    <p-autoComplete inputId="userSurname"  name="userSurname"  field="userSurname" #userSurname="ngModel" [(ngModel)]="userService.SelectedUser.userSurname"></p-autoComplete>
+                    <label for="userSurname">userSurname</label>
+                </span>
+            </div>
+
+            <div class="p-field-radiobutton ">
+
+                <p-radioButton name="city" class="" value="Male" inputId="city1"></p-radioButton>
+                <label for="city1">Male</label>
+                <p-radioButton name="city" value="Female" inputId="city2"></p-radioButton>
+                <label for="city2">Female</label>
+
+            </div>
+
+
+            <div class="p-field  ">
+                <span class="p-float-label">
+                    <p-autoComplete inputId="email"  name="email"   field="email" #email="ngModel" [(ngModel)]="userService.SelectedUser.email" ></p-autoComplete>
+                    <label for="email">Email</label>
+                </span>
+            </div>
+
+            <div *ngIf="signUpForm.submitted" class="p-field ">
+                <span class="p-float-label">
+                    <p-password #Password="ngModel"  name="Password"  [(ngModel)]="userService.SelectedUser.Password"></p-password>
+                    <label for="UserName">Password</label>
+                </span>
+            </div>
+
+            <input type="submit" value="Sign Up">
+        </form>
+
+    </p-card>
+</div> -->
+
+
+<form #signUpForm="ngForm" (ngSubmit)="signUpForm.valid && onSubmit(signUpForm)">
+    <input type="text" name="userName" [required]="true" #userName="ngModel" [(ngModel)]="userService.SelectedUser.userName" name="userName" placeholder="userName" [ngClass]="{'invalid-textbox' :signUpForm.submitted && !userName.valid }">
+    <div *ngIf="signUpForm.submitted && !userName.valid">
+        <label class="validation-message">This field is required.</label>
+    </div>
+    <input type="text" #email="ngModel" [pattern]="emailRegex" [required]="true" [(ngModel)]="userService.SelectedUser.email" name="email" placeholder="Email" [ngClass]="{'invalid-textbox' :signUpForm.submitted && !email.valid }">
+    <div *ngIf="signUpForm.submitted && email.errors">
+        <label *ngIf="email.errors.required" class="validation-message">This field is required.</label>
+        <label *ngIf="email.errors.pattern" class="validation-message">Invalid email address.</label>
+    </div>
+    <input type="Password" #Password="ngModel" [required]="true" [(ngModel)]="userService.SelectedUser.Password" name="Password" placeholder="Password" minlength="6" [ngClass]="{'invalid-textbox' :signUpForm.submitted && !Password.valid }">
+    <div *ngIf="signUpForm.submitted && Password.errors">
+        <label *ngIf="Password.errors.required" class="validation-message">This field is required.</label>
+        <label *ngIf="Password.errors.minlength" class="validation-message">Enter atleast 6 characters.</label>
+    </div>
+    <input type="submit" value="Sign Up">
+</form>
+
+
+<!-- Success message -->
+<div class="success" *ngIf="showSucessMessage">
+    Saved successfully
+</div>
+
+<!-- Error message -->
+<div class="alert" *ngIf="serverErrorMessages">
+    {{serverErrorMessages}}
+</div>
